@@ -1,0 +1,71 @@
+
+R version 3.1.0 (2014-04-10) -- "Spring Dance"
+Copyright (C) 2014 The R Foundation for Statistical Computing
+Platform: x86_64-unknown-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> print(ls())
+character(0)
+> 
+> args <- commandArgs(TRUE) 
+> 
+> print(args)
+[1] "queue=as.numeric(Sys.getenv(\"SGE_TASK_ID\"))"
+[2] "COMP=TRUE"                                    
+[3] "PAYDIS=\"gamma\""                             
+[4] "DEGREE=c(2,4,6,10)"                           
+> 
+> 
+> if(length(args)!=0){ # CSF hands over a process number, if there is a queue variable we are in CONDOR, otherwise we work locally; Note: in CSF the varaiables are already in the right shape
++ 	for(i in 1:length(args)){
++ 		eval(parse(text=args[[i]]))
++ 	}
++ }
+> 	
+> 	print(ls())
+[1] "args"   "COMP"   "DEGREE" "i"      "PAYDIS" "queue" 
+> 	print(PAYDIS)
+[1] "gamma"
+> 	print(DEGREE)
+[1]  2  4  6 10
+> 	print(COMP)
+[1] TRUE
+> 	
+> 	any(installed.packages()[,1]=='igraph')
+[1] TRUE
+> 	
+> 	if(!any(installed.packages()[,1]=='igraph')){
++ 	.libPaths(c("Rpackages", .libPaths()))
++ 	install.packages("igraph", lib="Rpackages", dependencies="Depends",quiet = TRUE)
++ 	}
+> 	
+> 	library(igraph, quietly = TRUE)
+> 
+> 	any(installed.packages()[,1]=='igraph')
+[1] TRUE
+> 
+> DF<-c(queue)
+> 
+> if(!file.exists('output')) dir.create(path = 'output'); setwd('output')
+> if(length(queue)!=0) { # BEGIN CONDOR
++ 	save(DF, file=paste(paste(format(Sys.time(), '%y%m%d'),'degree',setup$degree,setup$graphType,queue, sep="_"), sep='/'))
++ } else { # END CONDOR
++ 	save(DF, file=paste(paste(format(Sys.time(), '%y%m%d'),'degree',setup$degree, sep="_"), sep='/'))
++ }
+Error in paste(format(Sys.time(), "%y%m%d"), "degree", setup$degree, setup$graphType,  : 
+  object 'setup' not found
+Calls: save -> paste -> paste
+Execution halted

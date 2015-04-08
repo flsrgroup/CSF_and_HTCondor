@@ -1,0 +1,16 @@
+universe = vanilla
+executable = /usr/bin/R 
+arguments =  --vanilla --no-save --no-restore --args PAYDIS='gamma' COMP=TRUE queue=$(Process)+1 DEGREE=c(2,4,6,20)
+log =  log.log
+error = error.err
+input = base.r
+output = out.r
+requirements = (opsys == "LINUX") && (arch == "X86_64") && (HAS_R_3_0 =?= True)
+request_memory = 100
+Request_Disk = 10000
+should_transfer_files = YES
+transfer_input_files = base.r
+transfer_output_files = output
+transfer_executable = false
+when_to_transfer_output = ON_EXIT
+queue 2

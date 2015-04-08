@@ -1,0 +1,10 @@
+#!/bin/bash
+#$ -S /bin/bash
+#$ -cwd
+#$ -V
+#$ -j y
+#$ -N base
+#$ -o outFiles
+#$ -t 1-2
+
+R CMD BATCH --no-save --no-restore '--args queue=as.numeric(Sys.getenv("SGE_TASK_ID")) COMP=TRUE PAYDIS="gamma" DEGREE=c(2,4,6,10)' base.r base.r.o

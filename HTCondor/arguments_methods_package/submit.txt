@@ -1,0 +1,16 @@
+getenv = true #needed in case packages have to be compiled and linked
+universe = vanilla
+executable = buildLocalPackageLib.sh
+arguments = --no-save --quiet --slave --no-restore -e source(file=\"./base.r\") 
+input = base.r
+environment = PAYDIS=gamma; COMP=TRUE; DEGREE=2 4 6 20; queue=$(Process)
+log =  log.log
+error = error.err
+output = out.r
+requirements = (opsys == "LINUX") && (arch == "X86_64") && (HAS_R_3_0 =?= True)
+request_memory = 1000
+should_transfer_files = YES
+transfer_output_files = output
+transfer_input_files = base.r, methods.tar
+when_to_transfer_output = ON_EXIT
+queue 2

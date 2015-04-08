@@ -1,0 +1,4 @@
+Error in paste(format(Sys.time(), "%y%m%d"), "degree", setup$degree, setup$graphType,  : 
+  object 'setup' not found
+Calls: save -> paste -> paste
+Execution halted
